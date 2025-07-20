@@ -1,0 +1,263 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ settings.site_title }} - Projects{% endblock %}
+
+{% block content %}
+<style>
+    /* Custom animations for staggered reveal */
+    @keyframes fadeInSlideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .animate-fade-in-slide-up {
+        animation: fadeInSlideUp 0.8s ease-out forwards;
+        opacity: 0; /* Hidden by default */
+        animation-delay: var(--stagger-delay, 0s); /* Use CSS variable for delay */
+    }
+
+    /* Blob animation for hero section */
+    @keyframes blob {
+        0% { transform: translate(0px, 0px) scale(1); }
+        33% { transform: translate(30px, -50px) scale(1.1); }
+        66% { transform: translate(-20px, 20px) scale(0.9); }
+        100% { transform: translate(0px, 0px) scale(1); }
+    }
+    .animate-blob {
+        animation: blob 7s infinite ease-in-out alternate;
+    }
+    .animation-delay-2000 { animation-delay: 2s; }
+    .animation-delay-4000 { animation-delay: 4s; }
+    .animation-delay-6000 { animation-delay: 6s; }
+</style>
+
+<section id="projects-hero" class="min-h-[60vh] flex items-center pt-24 pb-16 relative overflow-hidden bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900">
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-purple-400 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-20 -left-60 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob animation-delay-4000"></div>
+        <div class="absolute top-0 left-1/4 w-60 h-60 bg-pink-400 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob animation-delay-6000"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12 animate-fade-in-slide-up" style="--stagger-delay: 0s;">
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent transform transition-transform duration-300 hover:scale-105 leading-normal pb-3 -mb-3 dark:bg-gradient-to-r dark:from-cyan-400 dark:to-purple-500 dark:text-transparent dark:bg-clip-text dark:drop-shadow-2xl">
+                My Projects
+            </h1>
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed text-gray-700 dark:text-gray-300 animate-fade-in-slide-up" style="--stagger-delay: 0.2s;">
+                Dive into a collection of my work in Python, web development, and beyond. Each project tells a story!
+            </p>
+        </div>
+
+        <div class="max-w-4xl mx-auto mb-12 animate-fade-in-slide-up" style="--stagger-delay: 0.4s;">
+            <form method="GET" class="flex flex-col md:flex-row gap-4 p-6 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-xl border border-gray-100 dark:border-gray-700">
+                <div class="flex-1 relative">
+                    <input type="text" name="search" value="{{ search_query|default:'' }}"
+                           placeholder="Search projects by title or description..."
+                           class="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+                <div class="md:w-48 relative">
+                    <select name="tech" class="w-full pl-4 pr-10 py-3 rounded-lg appearance-none border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                        <option value="">All Technologies</option>
+                        {% for tech in all_technologies %}
+                            <option value="{{ tech }}" {% if tech == tech_filter %}selected{% endif %}>{{ tech }}</option>
+                        {% endfor %}
+                    </select>
+                    <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <button type="submit" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                    Search
+                </button>
+                {% if search_query or tech_filter %}
+                <a href="{% url 'projects' %}" class="px-6 py-3 bg-red-500 text-white rounded-lg font-semibold hover:bg-red-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    Clear
+                </a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Lower Section -->
+
+<section id="projects-grid" class="py-20 bg-white dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if projects %}
+        <div class="space-y-24">
+            {% for project in projects %}
+            <div class="flex flex-col lg:flex-row items-center gap-12 group
+                {% if forloop.counter|divisibleby:2 %}lg:flex-row-reverse{% endif %}
+                animate-fade-in-slide-up" style="--stagger-delay: {{ forloop.counter0 | stringformat:'0.2f' }}s;"> {# Convert to float string for more precise delay #}
+                <div class="lg:w-1/2 relative">
+                    <div class="relative overflow-hidden rounded-2xl shadow-2xl transition-all duration-500 group-hover:shadow-3xl group-hover:scale-[1.01]">
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}"
+                             class="w-full h-80 object-cover object-center transition-all duration-500 group-hover:scale-105">
+                        {% if project.video_preview %}
+                        <a href="{{ project.video_preview }}" target="_blank" rel="noopener noreferrer" class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer">
+                            <div class="text-white text-center transform group-hover:scale-110 transition-transform duration-300">
+                                <svg class="w-16 h-16 mx-auto mb-2 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <p class="text-sm font-semibold">Watch Preview</p>
+                            </div>
+                        </a>
+                        {% else %}
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center text-white text-center">
+                            <span class="text-lg font-semibold">View Project Details</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="lg:w-1/2 space-y-6">
+                    <div>
+                        <h3 class="text-3xl md:text-4xl font-extrabold mb-4 text-gray-900 dark:text-white leading-tight">
+                            {{ project.title }}
+                        </h3>
+                        <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+                            {{ project.description }}
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2">
+                        {% for tech in project.technologies.all %}
+                        <span class="px-4 py-1.5 rounded-full text-sm font-medium bg-gradient-to-r from-blue-100 to-purple-100 dark:from-gray-700 dark:to-gray-800 text-blue-800 dark:text-blue-300 shadow-sm hover:scale-105 transition-transform duration-200 cursor-default">
+                            {{ tech.name }}
+                        </span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        {% if project.github_url %}
+                        <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer"
+                           class="flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 bg-gray-800 dark:bg-gray-700 text-white hover:bg-gray-900 dark:hover:bg-gray-600 shadow-lg">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            GitHub
+                        </a>
+                        {% endif %}
+                        {% if project.live_url %}
+                        <a href="{{ project.live_url }}" target="_blank" rel="noopener noreferrer"
+                           class="flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-lg">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                            Live Demo
+                        </a>
+                        {% endif %}
+                        <a href="{% url 'project_detail' project.pk %}"
+                           class="flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-md">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if projects.has_other_pages %}
+        <div class="flex justify-center mt-16 animate-fade-in-slide-up" style="--stagger-delay: 0.6s;">
+            <nav class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800 shadow-inner">
+                {% if projects.has_previous %}
+                    <a href="?page={{ projects.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if tech_filter %}&tech={{ tech_filter }}{% endif %}"
+                       class="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200 font-medium">
+                        &larr; Previous
+                    </a>
+                {% endif %}
+
+                {% for num in projects.paginator.page_range %}
+                    {% if projects.number == num %}
+                        <span class="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold shadow-md">{{ num }}</span>
+                    {% elif num > projects.number|add:'-2' and num < projects.number|add:'2' or num == 1 or num == projects.paginator.num_pages %} {# Show first/last page, and +/- 1-2 pages #}
+                        <a href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if tech_filter %}&tech={{ tech_filter }}{% endif %}"
+                           class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200">
+                            {{ num }}
+                        </a>
+                    {% elif num == projects.number|add:'-3' or num == projects.number|add:'3' %} {# Ellipsis for skipped pages #}
+                        <span class="px-2 py-2 text-gray-500 dark:text-gray-400">...</span>
+                    {% endif %}
+                {% endfor %}
+
+                {% if projects.has_next %}
+                    <a href="?page={{ projects.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if tech_filter %}&tech={{ tech_filter }}{% endif %}"
+                       class="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200 font-medium">
+                        Next &rarr;
+                    </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="text-center py-20 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 animate-fade-in-slide-up" style="--stagger-delay: 0.2s;">
+            <div class="text-7xl mb-6 animate-pulse-once">🤔</div> {# Added an emoji and subtle pulse animation #}
+            <h3 class="text-3xl font-extrabold mb-4 text-gray-900 dark:text-white">No Projects Found Yet!</h3>
+            <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-lg mx-auto leading-relaxed">
+                {% if search_query or tech_filter %}
+                    It looks like nothing matches your current search. Try adjusting your filters or clearing them to see all available projects.
+                {% else %}
+                    My portfolio is growing! New projects will be added here soon. Stay tuned for exciting updates!
+                {% endif %}
+            </p>
+            {% if search_query or tech_filter %}
+            <a href="{% url 'projects' %}" class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-bold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                Clear Filters
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const observerOptions = {
+            threshold: 0.1, // Trigger when 10% of the element is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible'); // Add a class to trigger animation
+                    observer.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, observerOptions);
+
+        // Observe main hero text, search/filter form
+        document.querySelectorAll('#projects-hero .animate-fade-in-slide-up').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Observe each project item individually for staggered animation
+        document.querySelectorAll('#projects-grid .flex.flex-col.lg\\:flex-row').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Observe pagination and empty state for animation
+        document.querySelectorAll('#projects-grid .flex.justify-center.mt-16, #projects-grid .text-center.py-20').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Add 'is-visible' to body to ensure base animations are triggered
+        document.body.classList.add('is-visible');
+
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ settings.site_title }} - Blogs{% endblock %}
+
+{% block content %}
+<!-- Blogs Hero Section -->
+<section id="blogs-hero" class="pt-24 pb-16 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent transform transition-transform duration-300 hover:scale-105 leading-normal pb-3 -mb-3 dark:bg-gradient-to-r dark:from-cyan-400 dark:to-purple-500 dark:text-transparent dark:bg-clip-text dark:drop-shadow-2xl">
+                My Blogs
+            </h1>
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed text-gray-600 dark:text-gray-300">
+                Thoughts, tutorials, and insights about web development and technology.
+            </p>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="max-w-4xl mx-auto mb-12">
+            <form method="GET" class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <input type="text" name="search" value="{{ search_query|default:'' }}" 
+                           placeholder="Search blog posts..." 
+                           class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+                <div class="md:w-48">
+                    <select name="category" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <option value="">All Categories</option>
+                        {% for category in categories %}
+                            <option value="{{ category.slug }}" {% if category.slug == category_slug %}selected{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200">
+                    Search
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Posts -->
+{% if featured_posts %}
+<section id="featured-posts" class="py-20 bg-white dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4 text-gray-900 dark:text-white">Featured Posts</h2>
+            <p class="text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-300">
+                Don't miss these highlighted articles
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-16">
+            {% for post in featured_posts %}
+            <article class="group cursor-pointer transition-all duration-300 hover:scale-105 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl border-2 border-blue-200 dark:border-blue-700">
+                <div class="aspect-w-16 aspect-h-9">
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}" 
+                         class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center gap-4 mb-4 text-sm">
+                        <div class="flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <span class="text-gray-400 dark:text-gray-400">
+                                {{ post.created_at|date:"M d, Y" }}
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span class="text-gray-400 dark:text-gray-400">
+                                {{ post.read_time }} min read
+                            </span>
+                        </div>
+                        <span class="px-2 py-1 rounded-full text-xs bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">
+                            Featured
+                        </span>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-3 group-hover:text-blue-500 transition-colors text-gray-900 dark:text-white">
+                        {{ post.title }}
+                    </h3>
+                    
+                    <p class="text-sm mb-4 text-gray-600 dark:text-gray-300">
+                        {{ post.excerpt }}
+                    </p>
+                    
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-400 dark:text-gray-400">
+                            {{ post.category.name }}
+                        </span>
+                        <a href="{{ post.get_absolute_url }}" class="text-blue-500 hover:text-blue-600 transition-colors">
+                            Read More →
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- All Posts -->
+<section id="all-posts" class="py-20 bg-gray-50 dark:bg-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if posts %}
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for post in posts %}
+            <article class="group cursor-pointer transition-all duration-300 hover:scale-105 bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl">
+                <div class="aspect-w-16 aspect-h-9">
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}" 
+                         class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center gap-4 mb-4 text-sm">
+                        <div class="flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <span class="text-gray-400 dark:text-gray-400">
+                                {{ post.created_at|date:"M d, Y" }}
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span class="text-gray-400 dark:text-gray-400">
+                                {{ post.read_time }} min read
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-3 group-hover:text-blue-500 transition-colors text-gray-900 dark:text-white">
+                        {{ post.title }}
+                    </h3>
+                    
+                    <p class="text-sm mb-4 text-gray-600 dark:text-gray-300">
+                        {{ post.excerpt }}
+                    </p>
+                    
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-400 dark:text-gray-400">
+                            {{ post.category.name }}
+                        </span>
+                        <a href="{{ post.get_absolute_url }}" class="text-blue-500 hover:text-blue-600 transition-colors">
+                            Read More →
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if posts.has_other_pages %}
+        <div class="flex justify-center mt-16">
+            <nav class="flex items-center gap-2">
+                {% if posts.has_previous %}
+                    <a href="?page={{ posts.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_slug %}&category={{ category_slug }}{% endif %}" 
+                       class="px-4 py-2 rounded-lg bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        Previous
+                    </a>
+                {% endif %}
+
+                {% for num in posts.paginator.page_range %}
+                    {% if posts.number == num %}
+                        <span class="px-4 py-2 rounded-lg bg-blue-600 text-white">{{ num }}</span>
+                    {% elif num > posts.number|add:'-3' and num < posts.number|add:'3' %}
+                        <a href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_slug %}&category={{ category_slug }}{% endif %}" 
+                           class="px-4 py-2 rounded-lg bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                            {{ num }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if posts.has_next %}
+                    <a href="?page={{ posts.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_slug %}&category={{ category_slug }}{% endif %}" 
+                       class="px-4 py-2 rounded-lg bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        Next
+                    </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <!-- Empty State -->
+        <div class="text-center py-20">
+            <div class="text-6xl mb-6">📝</div>
+            <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">No Blog Posts Found</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-8">
+                {% if search_query or category_slug %}
+                    No posts match your search criteria. Try adjusting your filters.
+                {% else %}
+                    Blog posts will appear here once they're added through the admin panel.
+                {% endif %}
+            </p>
+            {% if search_query or category_slug %}
+            <a href="{% url 'blogs' %}" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                Clear Filters
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

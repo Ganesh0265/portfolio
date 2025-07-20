@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ settings.site_title }} - Gallery{% endblock %}
+
+{% block content %}
+<!-- Gallery Hero Section -->
+<section id="gallery-hero" class="pt-24 pb-16 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent transform transition-transform duration-300 hover:scale-105 leading-normal pb-3 -mb-3 dark:bg-gradient-to-r dark:from-cyan-400 dark:to-purple-500 dark:text-transparent dark:bg-clip-text dark:drop-shadow-2xl">
+                My Gallery
+            </h1>
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed text-gray-600 dark:text-gray-300">
+                A visual showcase of my projects, creative works, and development journey.
+            </p>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="max-w-4xl mx-auto mb-12">
+            <form method="GET" class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <input type="text" name="search" value="{{ search_query|default:'' }}" 
+                           placeholder="Search gallery..." 
+                           class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+                <div class="md:w-48">
+                    <select name="category" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <option value="">All Categories</option>
+                        {% for category in categories %}
+                            <option value="{{ category.slug }}" {% if category.slug == category_slug %}selected{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200">
+                    Search
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Grid -->
+<section id="gallery-grid" class="py-20 bg-white dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if items %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {% for item in items %}
+            <div class="group cursor-pointer transition-all duration-300 hover:scale-105" onclick="openLightbox('{{ item.image.url }}', '{{ item.title|escapejs }}', '{{ item.description|escapejs }}')">
+                <div class="relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl bg-gray-100 dark:bg-gray-800">
+                    <div class="aspect-w-1 aspect-h-1">
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}" 
+                             class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    
+                    <!-- Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="absolute bottom-0 left-0 right-0 p-4">
+                            <h3 class="text-white font-semibold text-lg mb-1">{{ item.title }}</h3>
+                            <p class="text-gray-200 text-sm">{{ item.description|truncatewords:10 }}</p>
+                            
+                            <!-- Tags -->
+                            {% if item.tags.all %}
+                            <div class="flex flex-wrap gap-1 mt-2">
+                                {% for tag in item.tags.all|slice:":3" %}
+                                <span class="px-2 py-1 rounded text-xs bg-white/20 text-white">
+                                    {{ tag.name }}
+                                </span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- View Icon -->
+                    <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="p-2 rounded-full bg-white/20 backdrop-blur-sm">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if items.has_other_pages %}
+        <div class="flex justify-center mt-16">
+            <nav class="flex items-center gap-2">
+                {% if items.has_previous %}
+                    <a href="?page={{ items.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_slug %}&category={{ category_slug }}{% endif %}" 
+                       class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        Previous
+                    </a>
+                {% endif %}
+
+                {% for num in items.paginator.page_range %}
+                    {% if items.number == num %}
+                        <span class="px-4 py-2 rounded-lg bg-blue-600 text-white">{{ num }}</span>
+                    {% elif num > items.number|add:'-3' and num < items.number|add:'3' %}
+                        <a href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_slug %}&category={{ category_slug }}{% endif %}" 
+                           class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                            {{ num }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if items.has_next %}
+                    <a href="?page={{ items.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_slug %}&category={{ category_slug }}{% endif %}" 
+                       class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        Next
+                    </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <!-- Empty State -->
+        <div class="text-center py-20">
+            <div class="text-6xl mb-6">🖼️</div>
+            <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">No Gallery Items Found</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-8">
+                {% if search_query or category_slug %}
+                    No items match your search criteria. Try adjusting your filters.
+                {% else %}
+                    Gallery items will appear here once they're added through the admin panel.
+                {% endif %}
+            </p>
+            {% if search_query or category_slug %}
+            <a href="{% url 'gallery' %}" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                Clear Filters
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-sm">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="relative max-w-4xl w-full">
+            <!-- Close Button -->
+            <button onclick="closeLightbox()" class="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+
+            <!-- Image -->
+            <div class="relative">
+                <img id="lightbox-image" src="" alt="" class="w-full h-auto max-h-[80vh] object-contain rounded-lg">
+            </div>
+
+            <!-- Content -->
+            <div class="mt-4 text-center">
+                <h3 id="lightbox-title" class="text-2xl font-bold text-white mb-2"></h3>
+                <p id="lightbox-description" class="text-gray-300"></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function openLightbox(imageSrc, title, description) {
+        const lightbox = document.getElementById('lightbox');
+        const image = document.getElementById('lightbox-image');
+        const titleEl = document.getElementById('lightbox-title');
+        const descriptionEl = document.getElementById('lightbox-description');
+
+        image.src = imageSrc;
+        image.alt = title;
+        titleEl.textContent = title;
+        descriptionEl.textContent = description;
+
+        lightbox.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        const lightbox = document.getElementById('lightbox');
+        lightbox.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close lightbox on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeLightbox();
+        }
+    });
+
+    // Close lightbox on background click
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeLightbox();
+        }
+    });
+</script>
+{% endblock %}

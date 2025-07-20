@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }} - {{ settings.site_title }}{% endblock %}
+
+{% block content %}
+<!-- Category Hero Section -->
+<section class="pt-24 pb-16 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                {{ category.name }}
+            </h1>
+            {% if category.description %}
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed text-gray-600 dark:text-gray-300">
+                {{ category.description }}
+            </p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Posts Grid -->
+<section class="py-20 bg-white dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if posts %}
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for post in posts %}
+            <article class="group cursor-pointer transition-all duration-300 hover:scale-105 bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl">
+                <div class="aspect-w-16 aspect-h-9">
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}" 
+                         class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center gap-4 mb-4 text-sm">
+                        <div class="flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <span class="text-gray-400 dark:text-gray-400">
+                                {{ post.created_at|date:"M d, Y" }}
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span class="text-gray-400 dark:text-gray-400">
+                                {{ post.read_time }} min read
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-3 group-hover:text-blue-500 transition-colors text-gray-900 dark:text-white">
+                        {{ post.title }}
+                    </h3>
+                    
+                    <p class="text-sm mb-4 text-gray-600 dark:text-gray-300">
+                        {{ post.excerpt }}
+                    </p>
+                    
+                    <div class="flex items-center justify-between">
+                        {% if post.featured %}
+                        <span class="px-2 py-1 rounded-full text-xs bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">
+                            Featured
+                        </span>
+                        {% else %}
+                        <span></span>
+                        {% endif %}
+                        <a href="{{ post.get_absolute_url }}" class="text-blue-500 hover:text-blue-600 transition-colors">
+                            Read More →
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if posts.has_other_pages %}
+        <div class="flex justify-center mt-16">
+            <nav class="flex items-center gap-2">
+                {% if posts.has_previous %}
+                    <a href="?page={{ posts.previous_page_number }}" 
+                       class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        Previous
+                    </a>
+                {% endif %}
+
+                {% for num in posts.paginator.page_range %}
+                    {% if posts.number == num %}
+                        <span class="px-4 py-2 rounded-lg bg-blue-600 text-white">{{ num }}</span>
+                    {% elif num > posts.number|add:'-3' and num < posts.number|add:'3' %}
+                        <a href="?page={{ num }}" 
+                           class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                            {{ num }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if posts.has_next %}
+                    <a href="?page={{ posts.next_page_number }}" 
+                       class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        Next
+                    </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <!-- Empty State -->
+        <div class="text-center py-20">
+            <div class="text-6xl mb-6">📝</div>
+            <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">No Posts in This Category</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-8">
+                There are no published posts in the "{{ category.name }}" category yet.
+            </p>
+            <a href="{% url 'blogs' %}" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                View All Posts
+            </a>
+        </div>
+        {% endif %}
+
+        <!-- Back to Blog -->
+        <div class="text-center mt-16">
+            <a href="{% url 'blogs' %}" 
+               class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:scale-105 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to All Posts
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

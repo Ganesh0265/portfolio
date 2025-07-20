@@ -1,0 +1,468 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ settings.site_title }} - About{% endblock %}
+
+{% block content %}
+<section id="about-hero" class="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-950 dark:to-blue-950">
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-purple-400 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-20 -left-60 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob animation-delay-4000"></div>
+        <div class="absolute top-0 left-1/4 w-60 h-60 bg-pink-400 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob animation-delay-6000"></div>
+        <div class="absolute bottom-1/4 right-0 w-72 h-72 bg-green-400 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob animation-delay-8000"></div>
+    </div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="text-center mb-16 animate-fade-in-up">
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent transform transition-transform duration-300 hover:scale-105 drop-shadow-lg dark:drop-shadow-2xl dark:bg-gradient-to-r dark:from-cyan-400 dark:to-purple-500 dark:text-transparent dark:bg-clip-text">
+                About Me
+            </h1>
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed text-gray-700 dark:text-gray-200 animate-fade-in-up delay-200">
+                Welcome to my world! Let's explore my journey, skills, and achievements in an interactive way.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+            <div class="text-center p-6 rounded-2xl bg-white/80 dark:bg-gradient-to-br dark:from-gray-800/90 dark:to-gray-900/90 backdrop-blur-md shadow-xl transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100 dark:border-gray-700 dark:shadow-2xl">
+                <div class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">3+</div>
+                <div class="text-sm text-gray-600 dark:text-gray-300">Years Experience</div>
+            </div>
+            <div class="text-center p-6 rounded-2xl bg-white/80 dark:bg-gradient-to-br dark:from-gray-800/90 dark:to-gray-900/90 backdrop-blur-md shadow-xl transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100 dark:border-gray-700 dark:shadow-2xl">
+                <div class="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2">50+</div>
+                <div class="text-sm text-gray-600 dark:text-gray-300">Projects Built</div>
+            </div>
+            <div class="text-center p-6 rounded-2xl bg-white/80 dark:bg-gradient-to-br dark:from-gray-800/90 dark:to-gray-900/90 backdrop-blur-md shadow-xl transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100 dark:border-gray-700 dark:shadow-2xl">
+                <div class="text-4xl font-bold text-green-600 dark:text-green-400 mb-2">10+</div>
+                <div class="text-sm text-gray-600 dark:text-gray-300">Happy Clients</div>
+            </div>
+            <div class="text-center p-6 rounded-2xl bg-white/80 dark:bg-gradient-to-br dark:from-gray-800/90 dark:to-gray-900/90 backdrop-blur-md shadow-xl transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100 dark:border-gray-700 dark:shadow-2xl">
+                <div class="text-4xl font-bold text-red-600 dark:text-red-400 mb-2">∞</div>
+                <div class="text-sm text-gray-600 dark:text-gray-300">Lines of Code</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+
+<section id="skills" class="py-20 bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-gray-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-fade-in-up">
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-4 text-gray-900 dark:text-white drop-shadow dark:drop-shadow-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-cyan-400 dark:to-purple-500 dark:text-transparent dark:bg-clip-text">
+                🎮 Skill Tree <span class="text-purple-500 dark:text-cyan-400">Mastery</span>
+            </h2>
+            <p class="text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-200">
+                Level up your understanding of my technical expertise! Each skill represents a journey of learning and application.
+            </p>
+        </div>
+
+        {% if skills %}
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for skill in skills %}
+            <div class="group p-7 rounded-xl transition-all duration-300 hover:scale-105 bg-gray-50 dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 hover:bg-white dark:hover:bg-gray-700 shadow-lg hover:shadow-2xl border border-gray-100 dark:border-gray-700 dark:shadow-2xl animate-fade-in" style="--animation-delay: {{ forloop.counter0 }}s;">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="text-4xl flex-shrink-0">
+                        {% if skill.name|lower == 'python' %}
+                            <img src="{% static 'icons/python.png' %}" alt="Python" width="40" height="40" class="drop-shadow-lg dark:drop-shadow-2xl">
+                        {% elif skill.name|lower == 'javascript' %}
+                            <img src="{% static 'icons/javascript.png' %}" alt="JavaScript" width="40" height="40" class="drop-shadow-lg dark:drop-shadow-2xl">
+                        {% elif skill.name|lower == 'django' %}
+                            <img src="{% static 'icons/django.png' %}" alt="Django" width="48" height="48" class="drop-shadow-lg dark:drop-shadow-2xl">
+                        {% else %}
+                            <span class="text-blue-500 dark:text-blue-300">{{ skill.icon }}</span>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">{{ skill.name }}</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-300">{{ skill.category|title }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <p class="text-gray-500 dark:text-gray-400 text-lg">No skills added yet. Time to level up! 🚀</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Timeline Section -->
+<section id="timeline" class="py-20 bg-gray-50 dark:bg-gradient-to-br dark:from-gray-900 dark:to-gray-950">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-fade-in-up">
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-4 text-gray-900 dark:text-white drop-shadow dark:drop-shadow-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-cyan-400 dark:to-purple-500 dark:text-transparent dark:bg-clip-text">
+                🕒 My Journey Timeline
+            </h2>
+            <p class="text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-200">
+                A chronological journey through my studies, trainings, and work experiences.
+            </p>
+        </div>
+        {% if timeline_items %}
+        <div class="relative">
+            <!-- Vertical line -->
+            <div class="hidden md:block absolute left-1/2 top-0 h-full w-1 bg-blue-200 dark:bg-cyan-700 transform -translate-x-1/2 z-0"></div>
+            <ol class="space-y-16 md:space-y-0">
+                {% for item in timeline_items %}
+                <li class="relative md:flex md:items-center group timeline-item opacity-0 translate-y-8 transition-all duration-700" style="z-index:2;">
+                    {% if forloop.counter0|divisibleby:2 %}
+                        <!-- Left side (odd) -->
+                        <div class="md:w-1/2 md:pr-8 md:text-right flex justify-end">
+                            <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 max-w-md timeline-card">
+                                <div class="flex flex-col md:items-end mb-2">
+                                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-1">{{ item.title }}</h3>
+                                    <span class="text-sm font-medium text-gray-500 dark:text-gray-300">{{ item.institution }}</span>
+                                </div>
+                                <div class="flex items-center gap-2 mb-2 md:justify-end">
+                                    <span class="text-xs px-2 py-1 rounded bg-blue-100 dark:bg-cyan-900 text-blue-600 dark:text-cyan-300 font-semibold">{{ item.get_type_display }}</span>
+                                    <span class="text-xs text-gray-400">{{ item.start_date|date:"M Y" }}{% if item.end_date %} - {{ item.end_date|date:"M Y" }}{% else %} - Present{% endif %}</span>
+                                </div>
+                                {% if item.description %}
+                                <p class="text-gray-700 dark:text-gray-200 mt-2">{{ item.description }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- Center dot -->
+                        <div class="absolute left-1/2 top-8 md:top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+                            <span class="flex items-center justify-center w-10 h-10 bg-blue-100 dark:bg-cyan-900 rounded-full ring-4 ring-white dark:ring-gray-900">
+                                {% if item.type == 'study' %}
+                                    <span class="text-blue-600 dark:text-cyan-400 text-2xl">🎓</span>
+                                {% elif item.type == 'training' %}
+                                    <span class="text-yellow-500 dark:text-yellow-300 text-2xl">📜</span>
+                                {% elif item.type == 'work' %}
+                                    <span class="text-green-600 dark:text-green-400 text-2xl">💼</span>
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="md:w-1/2"></div>
+                    {% else %}
+                        <div class="md:w-1/2"></div>
+                        <!-- Center dot -->
+                        <div class="absolute left-1/2 top-8 md:top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+                            <span class="flex items-center justify-center w-10 h-10 bg-blue-100 dark:bg-cyan-900 rounded-full ring-4 ring-white dark:ring-gray-900">
+                                {% if item.type == 'study' %}
+                                    <span class="text-blue-600 dark:text-cyan-400 text-2xl">🎓</span>
+                                {% elif item.type == 'training' %}
+                                    <span class="text-yellow-500 dark:text-yellow-300 text-2xl">📜</span>
+                                {% elif item.type == 'work' %}
+                                    <span class="text-green-600 dark:text-green-400 text-2xl">💼</span>
+                                {% endif %}
+                            </span>
+                        </div>
+                        <!-- Right side (even) -->
+                        <div class="md:w-1/2 md:pl-8 flex justify-start">
+                            <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 max-w-md timeline-card">
+                                <div class="flex flex-col md:items-start mb-2">
+                                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-1">{{ item.title }}</h3>
+                                    <span class="text-sm font-medium text-gray-500 dark:text-gray-300">{{ item.institution }}</span>
+                                </div>
+                                <div class="flex items-center gap-2 mb-2 md:justify-start">
+                                    <span class="text-xs px-2 py-1 rounded bg-blue-100 dark:bg-cyan-900 text-blue-600 dark:text-cyan-300 font-semibold">{{ item.get_type_display }}</span>
+                                    <span class="text-xs text-gray-400">{{ item.start_date|date:"M Y" }}{% if item.end_date %} - {{ item.end_date|date:"M Y" }}{% else %} - Present{% endif %}</span>
+                                </div>
+                                {% if item.description %}
+                                <p class="text-gray-700 dark:text-gray-200 mt-2">{{ item.description }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <p class="text-gray-500 dark:text-gray-400 text-lg">No timeline items yet. Add your journey in the admin panel!</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+---
+
+<section id="achievements" class="py-20 bg-gray-50 dark:bg-gradient-to-br dark:from-gray-900 dark:to-gray-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-fade-in-up">
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-4 text-gray-900 dark:text-white drop-shadow dark:drop-shadow-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-cyan-400 dark:to-purple-500 dark:text-transparent dark:bg-clip-text">
+                🏆 Achievements <span class="text-yellow-500 dark:text-cyan-400">Unlocked</span>
+            </h2>
+            <p class="text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-200">
+                Milestones and accomplishments in my journey, each a testament to dedication and growth.
+            </p>
+        </div>
+
+        {% if achievements %}
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for achievement in achievements %}
+            <div class="group p-7 rounded-xl transition-all duration-300 hover:scale-105 {% if achievement.unlocked %}bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-2 border-yellow-300 dark:border-yellow-700 shadow-lg hover:shadow-2xl dark:shadow-2xl{% else %}bg-gray-100 dark:bg-gray-800 opacity-60 cursor-not-allowed{% endif %} animate-fade-in" style="--animation-delay: {{ forloop.counter0 }}s;">
+                <div class="text-center">
+                    <div class="text-5xl mb-4 transform transition-transform duration-300 group-hover:scale-110">
+                        {% if achievement.unlocked %}✨{% else %}🔒{% endif %}
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">
+                        {{ achievement.title }}
+                    </h3>
+                    <p class="text-base text-gray-600 dark:text-gray-200 mb-3">
+                        {{ achievement.description }}
+                    </p>
+                    <div class="text-sm font-semibold text-yellow-600 dark:text-yellow-400">
+                        +{{ achievement.xp }} XP
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <p class="text-gray-500 dark:text-gray-400 text-lg">No achievements added yet. Time to earn some! 🎯</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+---
+
+<section id="fun-facts" class="py-20 bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-gray-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-fade-in-up">
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-4 text-gray-900 dark:text-white drop-shadow dark:drop-shadow-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-cyan-400 dark:to-purple-500 dark:text-transparent dark:bg-clip-text">
+                💡 Fun Facts <span class="text-blue-500 dark:text-cyan-400">About Me</span>
+            </h2>
+            <p class="text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-200">
+                Click below to unlock some secrets about my journey! You might be surprised.
+            </p>
+        </div>
+
+        <div id="fun-facts-cards" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="fun-fact-card p-7 rounded-xl cursor-pointer transition-all duration-300 hover:scale-105 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border-2 border-blue-300 dark:border-blue-700 shadow-lg hover:shadow-2xl dark:shadow-2xl animate-fade-in" style="--animation-delay: 0s;">
+                <div class="text-center">
+                    <div class="text-5xl mb-4 transform transition-transform duration-300 group-hover:scale-110">🐍</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Python Enthusiast</h3>
+                    <p class="text-base text-gray-600 dark:text-gray-200 hidden">Been coding in Python for **3+ years** and still discovering new features and optimizing code! #AlwaysLearning</p>
+                </div>
+            </div>
+            <div class="fun-fact-card p-7 rounded-xl cursor-pointer transition-all duration-300 hover:scale-105 bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-2 border-green-300 dark:border-green-700 shadow-lg hover:shadow-2xl dark:shadow-2xl animate-fade-in" style="--animation-delay: 0.1s;">
+                <div class="text-center">
+                    <div class="text-5xl mb-4 transform transition-transform duration-300 group-hover:scale-110">🚀</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Django Expert</h3>
+                    <p class="text-base text-gray-600 dark:text-gray-200 hidden">Built **20+ robust web applications** using the powerful Django framework, from APIs to full-stack projects.</p>
+                </div>
+            </div>
+            <div class="fun-fact-card p-7 rounded-xl cursor-pointer transition-all duration-300 hover:scale-105 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-2 border-purple-300 dark:border-purple-700 shadow-lg hover:shadow-2xl dark:shadow-2xl animate-fade-in" style="--animation-delay: 0.2s;">
+                <div class="text-center">
+                    <div class="text-5xl mb-4 transform transition-transform duration-300 group-hover:scale-110">☕</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Coffee Powered Dev</h3>
+                    <p class="text-base text-gray-600 dark:text-gray-200 hidden">My coding fuel? An average of **4 cups of coffee** per day! It keeps the ideas flowing.</p>
+                </div>
+            </div>
+            <div class="fun-fact-card p-7 rounded-xl cursor-pointer transition-all duration-300 hover:scale-105 bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-2 border-yellow-300 dark:border-yellow-700 shadow-lg hover:shadow-2xl dark:shadow-2xl animate-fade-in" style="--animation-delay: 0.3s;">
+                <div class="text-center">
+                    <div class="text-5xl mb-4 transform transition-transform duration-300 group-hover:scale-110">🌙</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Dedicated Night Owl</h3>
+                    <p class="text-base text-gray-600 dark:text-gray-200 hidden">Most productive coding hours are definitely between **10 PM and 2 AM**. The quiet of the night is inspiring!</p>
+                </div>
+            </div>
+            <div class="fun-fact-card p-7 rounded-xl cursor-pointer transition-all duration-300 hover:scale-105 bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 border-2 border-red-300 dark:border-red-700 shadow-lg hover:shadow-2xl dark:shadow-2xl animate-fade-in" style="--animation-delay: 0.4s;">
+                <div class="text-center">
+                    <div class="text-5xl mb-4 transform transition-transform duration-300 group-hover:scale-110">🎮</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Strategic Gamer</h3>
+                    <p class="text-base text-gray-600 dark:text-gray-200 hidden">Beyond code, I love diving into **strategy games and complex puzzles**. It's all about problem-solving!</p>
+                </div>
+            </div>
+            <div class="fun-fact-card p-7 rounded-xl cursor-pointer transition-all duration-300 hover:scale-105 bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20 border-2 border-indigo-300 dark:border-indigo-700 shadow-lg hover:shadow-2xl dark:shadow-2xl animate-fade-in" style="--animation-delay: 0.5s;">
+                <div class="text-center">
+                    <div class="text-5xl mb-4 transform transition-transform duration-300 group-hover:scale-110">📚</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Eternal Learner</h3>
+                    <p class="text-base text-gray-600 dark:text-gray-200 hidden">Always on the hunt for new knowledge, I'm constantly **exploring emerging technologies and frameworks**.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Keyframes for blob animation */
+    @keyframes blob {
+        0% { transform: translate(0px, 0px) scale(1); }
+        33% { transform: translate(30px, -50px) scale(1.1); }
+        66% { transform: translate(-20px, 20px) scale(0.9); }
+        100% { transform: translate(0px, 0px) scale(1); }
+    }
+    .animate-blob {
+        animation: blob 7s infinite ease-in-out alternate;
+    }
+    .animation-delay-2000 { animation-delay: 2s; }
+    .animation-delay-4000 { animation-delay: 4s; }
+    .animation-delay-6000 { animation-delay: 6s; }
+    .animation-delay-8000 { animation-delay: 8s; }
+
+    /* Keyframes for fade-in-up animation */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translate3d(0, 40px, 0);
+        }
+        to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+    }
+    .animate-fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+        opacity: 0; /* Hidden by default */
+    }
+    /* No need for explicit delay classes here, using CSS variables for cards */
+    /* .delay-100, .delay-200, etc. can be removed if not used elsewhere */
+
+
+    /* Keyframes for general fade-in */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-out forwards;
+        opacity: 0; /* Hidden by default */
+        /* Apply the dynamic delay from the CSS variable */
+        animation-delay: var(--animation-delay, 0s);
+    }
+
+    #clear-chat-floating-btn {
+        position: fixed;
+        bottom: 32px;
+        right: 180px; /* Adjust based on Chatwoot launcher position */
+        z-index: 9999;
+        display: none; /* Hidden by default, shown via JS */
+        transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    }
+    #clear-chat-floating-btn.visible {
+        display: block;
+        transform: translateY(0);
+        opacity: 1;
+    }
+    /* Timeline scroll reveal */
+    .timeline-item {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+    }
+    .timeline-item.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+<button id="clear-chat-floating-btn" onclick="if(window.$chatwoot){window.$chatwoot.reset(); this.classList.remove('visible');}" class="px-5 py-2.5 bg-red-600 text-white rounded-full shadow-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all font-bold text-base transform -translate-y-4 opacity-0">
+    Clear Chat
+</button>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Show fun fact content on card click (show once per card)
+        document.querySelectorAll('.fun-fact-card').forEach(card => {
+            let revealed = false; // Track if content has been revealed
+            card.addEventListener('click', function() {
+                const fact = this.querySelector('p');
+                if (fact && fact.classList.contains('hidden') && !revealed) {
+                    fact.classList.remove('hidden');
+                    fact.style.animation = 'fadeInUp 0.5s ease-out forwards'; // Animate revealed text
+                    revealed = true; // Mark as revealed
+                }
+                // Click animation for the card itself
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1.02)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                }, 150);
+            });
+        });
+
+        // Animate skill bars on scroll
+        const observerOptions = {
+            threshold: 0.4, // Trigger when 40% of the element is visible
+            rootMargin: '0px 0px -50px 0px' // Adjust to trigger a bit sooner/later
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                    const skillBars = entry.target.querySelectorAll('.skill-bar');
+                    skillBars.forEach(bar => {
+                        const width = bar.getAttribute('data-skill-width');
+                        bar.style.width = width + '%';
+                    });
+                    entry.target.classList.add('animated'); // Mark as animated to prevent re-triggering
+                }
+            });
+        }, observerOptions);
+
+        const skillsSection = document.getElementById('skills');
+        if (skillsSection) {
+            observer.observe(skillsSection);
+        }
+
+        // Animate elements on scroll with a staggered effect
+        // NOTE: This function now uses the CSS variable for delay
+        const animateOnScroll = (selector, animationClass) => {
+            const elements = document.querySelectorAll(selector);
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add(animationClass);
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, { threshold: 0.2 }); // Adjust threshold as needed
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        };
+
+        animateOnScroll('.animate-fade-in-up', 'animated'); // For headings and paragraphs
+        // Apply animate-fade-in to the card groups
+        animateOnScroll('#skills .grid > div', 'animated');
+        animateOnScroll('#achievements .grid > div', 'animated');
+        animateOnScroll('#fun-facts-cards > div', 'animated');
+        animateOnScroll('.timeline-item', 'visible'); // Reveal timeline items on scroll
+
+        // Chatwoot Integration
+        window.chatwootSettings = {"position":"right","type":"compact","launcherTitle":"Chat with me"};
+        (function(d,t) {
+            var BASE_URL="https://app.chatwoot.com";
+            var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=BASE_URL+"/packs/js/sdk.js";
+            g.async = true;
+            s.parentNode.insertBefore(g,s);
+            var chatResetTimer = null;
+            var clearChatBtn = document.getElementById('clear-chat-floating-btn');
+
+            g.onload=function(){
+                window.chatwootSDK.run({
+                    websiteToken: 'UBkdySuCHaQkynJjw2fEZH1H',
+                    baseUrl: BASE_URL
+                });
+
+                window.addEventListener('chatwoot:widget:open', function() {
+                    if (chatResetTimer) clearTimeout(chatResetTimer);
+                    chatResetTimer = setTimeout(function() {
+                        if(window.$chatwoot){window.$chatwoot.reset();}
+                        clearChatBtn.classList.remove('visible'); // Hide button after auto-clear
+                    }, 180000); // 3 minutes
+                    clearChatBtn.classList.add('visible'); // Show clear chat button
+                });
+
+                window.addEventListener('chatwoot:widget:close', function() {
+                    if (chatResetTimer) clearTimeout(chatResetTimer);
+                    clearChatBtn.classList.remove('visible'); // Hide clear chat button
+                });
+            }
+        })(document,"script");
+    });
+</script>
+{% endblock %}
