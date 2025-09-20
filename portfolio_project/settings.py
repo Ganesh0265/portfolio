@@ -15,7 +15,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-your-secret-key-here'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com','https://portfolio-12i9.onrender.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com','https://portfolio.onrender.com']
 
 # Application definition
 INSTALLED_APPS = [
