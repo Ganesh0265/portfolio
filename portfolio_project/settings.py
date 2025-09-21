@@ -60,12 +60,28 @@ TEMPLATES = [
 WSGI_APPLICATION = 'portfolio_project.wsgi.application'
 
 # Database - using SQLite for local, change to Postgres for Render
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+import dj_database_url
+
+DATABASE_URL = config('DATABASE_URL', default='')
+
+if DATABASE_URL:
+    # Use Postgres on Render
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True
+        )
     }
-}
+else:
+    # Use SQLite locally
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
