@@ -2,7 +2,7 @@
 
 A modern, interactive portfolio website built with Django and Tailwind CSS, featuring a gamified About section, interactive project showcases, and comprehensive content management.
 
-## 🚀 Features
+##  Features
 
 - **Modern Design**: Clean, responsive design with dark/light theme toggle
 - **Gamified About Page**: Interactive skill trees, XP bars, and achievements
@@ -13,7 +13,7 @@ A modern, interactive portfolio website built with Django and Tailwind CSS, feat
 - **Admin Interface**: Easy content management through Django admin
 - **SEO Optimized**: Meta tags, structured data, and clean URLs
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Backend**: Django 4.2+
 - **Frontend**: Tailwind CSS, Vanilla JavaScript
@@ -22,7 +22,7 @@ A modern, interactive portfolio website built with Django and Tailwind CSS, feat
 - **Tags**: django-taggit for tagging system
 - **Images**: Pillow for image processing
 
-## 📦 Installation
+##  Installation
 
 1. **Clone the repository**
    ```bash
@@ -68,7 +68,7 @@ A modern, interactive portfolio website built with Django and Tailwind CSS, feat
    python manage.py runserver
    ```
 
-## 🎯 Initial Setup
+##  Initial Setup
 
 1. **Access Admin Panel**
    - Go to `http://localhost:8000/admin/`
@@ -89,7 +89,7 @@ A modern, interactive portfolio website built with Django and Tailwind CSS, feat
    - Configure your social media links
    - Set up contact information
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 portfolio_project/
@@ -108,7 +108,7 @@ portfolio_project/
 └── manage.py             # Django management script
 ```
 
-## 🎨 Customization
+##  Customization
 
 ### Theme Colors
 Edit the Tailwind configuration in `base.html` to customize colors:
@@ -132,7 +132,7 @@ tailwind.config = {
 4. Add URL patterns in `main/urls.py`
 5. Update navigation in `includes/navbar.html`
 
-## 🚀 Deployment
+##  Deployment
 
 ### Heroku Deployment
 1. Install Heroku CLI
@@ -140,14 +140,14 @@ tailwind.config = {
 3. Set environment variables: `heroku config:set SECRET_KEY=your-secret-key`
 4. Deploy: `git push heroku main`
 
-### VPS Deployment
-1. Set up server with Python, PostgreSQL, Nginx
-2. Clone repository and install dependencies
+### Render Deployment
+1. Create a new Web Service on Render
+2. Add Build & Start Commands
 3. Configure environment variables
-4. Set up Gunicorn and Nginx
-5. Configure SSL certificate
+4. Set up Static Files
+5. Automatic HTTPS & SSL
 
-## 📊 Admin Features
+##  Admin Features
 
 - **Dashboard**: Overview of all content
 - **Skills Management**: Add/edit skills with XP levels
@@ -157,7 +157,7 @@ tailwind.config = {
 - **Testimonials**: Manage client testimonials
 - **Site Settings**: Configure global site settings
 
-## 🔧 Development
+##  Development
 
 ### Adding New Features
 1. Create models for new content types
@@ -177,7 +177,7 @@ python manage.py migrate
 python manage.py collectstatic
 ```
 
-## 📝 Content Management
+##  Content Management
 
 ### Skills & Achievements
 - Add programming languages and tools
@@ -203,7 +203,7 @@ python manage.py collectstatic
 - Add descriptions and tags
 - Enable lightbox viewing
 
-## 🤝 Contributing
+##  Contributing
 
 1. Fork the repository
 2. Create feature branch: `git checkout -b feature-name`
@@ -211,20 +211,9 @@ python manage.py collectstatic
 4. Push to branch: `git push origin feature-name`
 5. Submit pull request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🆘 Support
+##  Support
 
 For support and questions:
 - Create an issue on GitHub
-- Email: your-email@example.com
+- Email: ganeshpariyar265@gmail.com
 - Documentation: Check the code comments and Django docs
-
-## 🎉 Acknowledgments
-
-- Django community for the amazing framework
-- Tailwind CSS for the utility-first CSS framework
-- Pexels for stock images
-- Lucide for beautiful icons
